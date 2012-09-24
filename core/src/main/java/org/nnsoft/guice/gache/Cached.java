@@ -41,6 +41,6 @@ public @interface Cached
      *
      * @return caching model id
      */
-    String id() default DEFAULT_ID;
+    String value() default DEFAULT_ID;
 
 }
