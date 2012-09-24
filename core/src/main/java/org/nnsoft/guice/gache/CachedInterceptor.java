@@ -39,18 +39,20 @@ final class CachedInterceptor
         // we can be sure about that because of the interceptor
         final Cached cached = invokedMethod.getAnnotation( Cached.class );
 
-        final String cacheEntryId;
+        final String cacheId;
 
-        if ( !DEFAULT_ID.equals( cached.id() ) )
+        if ( !DEFAULT_ID.equals( cached.value() ) )
         {
-            cacheEntryId = cached.id();
+            cacheId = cached.value();
         }
         else
         {
-            cacheEntryId = format( "%s#%s(%s)", invokedMethod.getDeclaringClass(), invokedMethod.getName(), Arrays.toString( invokedMethod.getParameterTypes() ) );
+            cacheId = invokedMethod.getDeclaringClass().getName();
         }
 
-        final CacheKey cacheKey = new CacheKey( cacheEntryId, invokedMethod, invocation.getArguments() );
+        final Cache cache = getCacheRegistry().get( cacheId );
+
+        final CacheKey cacheKey = new CacheKey( cacheId, invokedMethod, invocation.getArguments() );
 
         return null;
     }

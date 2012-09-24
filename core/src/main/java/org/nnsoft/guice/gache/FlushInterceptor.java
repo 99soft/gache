@@ -35,6 +35,11 @@ final class FlushInterceptor
         // we can be sure about that because of the interceptor
         final Flush flush = invokedMethod.getAnnotation( Flush.class );
 
+        for ( String id : flush.ids() )
+        {
+
+        }
+
         return null;
     }
 

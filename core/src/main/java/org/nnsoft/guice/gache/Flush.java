@@ -16,9 +16,10 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
-import static org.nnsoft.guice.gache.Cached.DEFAULT_ID;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.nnsoft.guice.gache.Cached.DEFAULT_ID;
+import static org.nnsoft.guice.gache.Flush.FlushingInterceptorAction.BEFORE_METHOD_INVOCATION;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
@@ -40,6 +41,16 @@ public @interface Flush
      *
      * @return flushing model Ids
      */
-    String[] value() default { DEFAULT_ID };
+    String[] ids() default { DEFAULT_ID };
+
+    FlushingInterceptorAction action() default BEFORE_METHOD_INVOCATION;
+
+    public static enum FlushingInterceptorAction
+    {
+
+        BEFORE_METHOD_INVOCATION,
+        AFTER_METHOD_INVOCATION;
+
+    }
 
 }

@@ -25,16 +25,16 @@ abstract class CacheInterceptor
 {
 
     @Inject
-    private Cache cache;
+    private CacheRegistry cacheRegistry;
 
-    public void setCache( Cache cache )
+    protected CacheRegistry getCacheRegistry()
     {
-        this.cache = cache;
+        return cacheRegistry;
     }
 
-    protected Cache getCache()
+    public void setCacheRegistry( CacheRegistry cacheRegistry )
     {
-        return cache;
+        this.cacheRegistry = cacheRegistry;
     }
 
 }
