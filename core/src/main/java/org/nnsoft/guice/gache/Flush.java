@@ -16,6 +16,7 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
+import static org.nnsoft.guice.gache.Cached.DEFAULT_ID;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -39,6 +40,6 @@ public @interface Flush
      *
      * @return flushing model Ids
      */
-    String[] value();
+    String[] value() default { DEFAULT_ID };
 
 }
