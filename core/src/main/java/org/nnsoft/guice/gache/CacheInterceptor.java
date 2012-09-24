@@ -16,6 +16,8 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
+import javax.cache.CacheManager;
+
 import org.aopalliance.intercept.MethodInterceptor;
 
 import com.google.inject.Inject;
@@ -25,16 +27,16 @@ abstract class CacheInterceptor
 {
 
     @Inject
-    private CacheRegistry cacheRegistry;
+    private CacheManager cacheManager;
 
-    protected CacheRegistry getCacheRegistry()
+    protected CacheManager getCacheManager()
     {
-        return cacheRegistry;
+        return cacheManager;
     }
 
-    public void setCacheRegistry( CacheRegistry cacheRegistry )
+    public void setCacheManager( CacheManager cacheManager )
     {
-        this.cacheRegistry = cacheRegistry;
+        this.cacheManager = cacheManager;
     }
 
 }

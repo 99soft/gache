@@ -20,6 +20,8 @@ import static org.nnsoft.guice.gache.Cached.DEFAULT_ID;
 
 import java.lang.reflect.Method;
 
+import javax.cache.Cache;
+
 import org.aopalliance.intercept.MethodInvocation;
 
 /**
@@ -48,7 +50,7 @@ final class CachedInterceptor
             cacheId = invokedMethod.getDeclaringClass().getName();
         }
 
-        final Cache cache = getCacheRegistry().get( cacheId );
+        final Cache<Object, Object> cache = getCacheManager().getCache( cacheId );
 
         return null;
     }
