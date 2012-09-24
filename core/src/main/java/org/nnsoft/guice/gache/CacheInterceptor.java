@@ -16,6 +16,8 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
+import java.lang.annotation.Annotation;
+
 import javax.cache.CacheManager;
 
 import org.aopalliance.intercept.MethodInterceptor;
@@ -29,14 +31,16 @@ abstract class CacheInterceptor
     @Inject
     private CacheManager cacheManager;
 
-    protected CacheManager getCacheManager()
+    protected final CacheManager getCacheManager()
     {
         return cacheManager;
     }
 
-    public void setCacheManager( CacheManager cacheManager )
+    public final void setCacheManager( CacheManager cacheManager )
     {
         this.cacheManager = cacheManager;
     }
+
+    abstract Class<? extends Annotation> getInterceptedAnnotationType();
 
 }

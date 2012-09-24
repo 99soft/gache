@@ -16,6 +16,7 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import javax.cache.Cache;
@@ -29,6 +30,12 @@ import org.aopalliance.intercept.MethodInvocation;
 final class CacheResultInterceptor
     extends CacheInterceptor
 {
+
+    @Override
+    Class<? extends Annotation> getInterceptedAnnotationType()
+    {
+        return CacheResult.class;
+    }
 
     public Object invoke( MethodInvocation invocation )
         throws Throwable

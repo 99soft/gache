@@ -16,11 +16,21 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
+import java.lang.annotation.Annotation;
+
+import javax.cache.annotation.CacheRemoveAll;
+
 import org.aopalliance.intercept.MethodInvocation;
 
 final class CacheRemoveAllInterceptor
     extends CacheInterceptor
 {
+
+    @Override
+    Class<? extends Annotation> getInterceptedAnnotationType()
+    {
+        return CacheRemoveAll.class;
+    }
 
     public Object invoke( MethodInvocation invocation )
         throws Throwable

@@ -19,15 +19,6 @@ package org.nnsoft.guice.gache;
 import static com.google.inject.matcher.Matchers.annotatedWith;
 import static com.google.inject.matcher.Matchers.any;
 
-import java.lang.annotation.Annotation;
-
-import javax.cache.annotation.CachePut;
-import javax.cache.annotation.CacheRemoveAll;
-import javax.cache.annotation.CacheRemoveEntry;
-import javax.cache.annotation.CacheResult;
-
-import org.aopalliance.intercept.MethodInterceptor;
-
 import com.google.inject.AbstractModule;
 
 public abstract class CacheModule
@@ -39,17 +30,16 @@ public abstract class CacheModule
     {
         configureCache();
 
-        bindInterceptor( CachePut.class, new CachePutInterceptor() );
-        bindInterceptor( CacheResult.class, new CacheResultInterceptor() );
-        bindInterceptor( CacheRemoveEntry.class, new CacheRemoveEntryInterceptor() );
-        bindInterceptor( CacheRemoveAll.class, new CacheRemoveAllInterceptor() );
+        for ( CacheInterceptor interceptor : new CacheInterceptor[] { new CachePutInterceptor(),
+                                                                      new CacheResultInterceptor(),
+                                                                      new CacheRemoveEntryInterceptor(),
+                                                                      new CacheRemoveAllInterceptor() } )
+        {
+            requestInjection( interceptor );
+            bindInterceptor( any(), annotatedWith( interceptor.getInterceptedAnnotationType() ), interceptor );
+        }
     }
 
     protected abstract void configureCache();
-
-    private <A extends Annotation> void bindInterceptor( Class<A> annotationType, MethodInterceptor interceptor )
-    {
-        bindInterceptor( any(), annotatedWith( annotationType ), interceptor );
-    }
 
 }
