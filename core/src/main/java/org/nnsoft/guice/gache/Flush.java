@@ -34,6 +34,8 @@ public @interface Flush
 
     /**
      * Ids of the flushing model to be used to flush the cache.
+     *
+     * @return flushing model Ids
      */
     String[] value();
 
