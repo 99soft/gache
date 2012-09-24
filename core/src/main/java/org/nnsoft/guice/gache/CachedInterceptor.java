@@ -16,11 +16,9 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
-import static java.lang.String.format;
 import static org.nnsoft.guice.gache.Cached.DEFAULT_ID;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -51,8 +49,6 @@ final class CachedInterceptor
         }
 
         final Cache cache = getCacheRegistry().get( cacheId );
-
-        final CacheKey cacheKey = new CacheKey( cacheId, invokedMethod, invocation.getArguments() );
 
         return null;
     }
