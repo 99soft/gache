@@ -24,7 +24,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- *
+ * Identifies the methods which return value should be stored in the cache.
  */
 @Documented
 @Retention( RUNTIME )

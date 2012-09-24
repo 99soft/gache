@@ -24,7 +24,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- *
+ * Identifies the methods that flush the cache when executed.
  */
 @Documented
 @Retention( RUNTIME )
