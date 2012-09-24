@@ -32,6 +32,9 @@ import java.lang.annotation.Target;
 public @interface Flush
 {
 
+    /**
+     * Ids of the flushing model to be used to flush the cache.
+     */
     String[] value();
 
 }

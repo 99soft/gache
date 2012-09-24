@@ -34,6 +34,11 @@ public @interface Cached
 
     static final String DEFAULT_ID = "##default";
 
+    /**
+     * The id of the caching model to use.
+     *
+     * @return caching model id
+     */
     String id() default DEFAULT_ID;
 
 }
