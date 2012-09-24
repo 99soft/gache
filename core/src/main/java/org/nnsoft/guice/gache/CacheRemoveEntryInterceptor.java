@@ -16,23 +16,28 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
+import java.lang.reflect.Method;
+
+import javax.cache.annotation.CacheRemoveEntry;
+
+import org.aopalliance.intercept.MethodInvocation;
+
 /**
- * Understands an unrecoverable error encountered in the cache package.
+ *
  */
-public class FatalCacheException
-    extends CacheException
+final class CacheRemoveEntryInterceptor
+    extends CacheInterceptor
 {
 
-    private static final long serialVersionUID = -5778844057206602130L;
-
-    public FatalCacheException( String messagePattern, Object... args )
+    public Object invoke( MethodInvocation invocation )
+        throws Throwable
     {
-        super( messagePattern, args );
-    }
+        final Method invokedMethod = invocation.getMethod();
 
-    public FatalCacheException( String message, Throwable cause )
-    {
-        super( message, cause );
+        // we can be sure about that because of the interceptor
+        final CacheRemoveEntry cacheRemoveEntry = invokedMethod.getAnnotation( CacheRemoveEntry.class );
+
+        return null;
     }
 
 }

@@ -18,12 +18,15 @@ package org.nnsoft.guice.gache;
 
 import java.lang.reflect.Method;
 
+import javax.cache.Cache;
+import javax.cache.annotation.CacheResult;
+
 import org.aopalliance.intercept.MethodInvocation;
 
 /**
  *
  */
-final class FlushInterceptor
+final class CacheResultInterceptor
     extends CacheInterceptor
 {
 
@@ -33,12 +36,11 @@ final class FlushInterceptor
         final Method invokedMethod = invocation.getMethod();
 
         // we can be sure about that because of the interceptor
-        final Flush flush = invokedMethod.getAnnotation( Flush.class );
+        final CacheResult cacheResult = invokedMethod.getAnnotation( CacheResult.class );
 
-        for ( String id : flush.ids() )
-        {
+        final String cacheId = cacheResult.cacheName();
 
-        }
+        final Cache<Object, Object> cache = getCacheManager().getCache( cacheId );
 
         return null;
     }
