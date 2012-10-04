@@ -16,13 +16,12 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
+import javax.cache.Cache;
 import javax.cache.annotation.CacheInvocationContext;
 import javax.cache.annotation.CacheRemoveAll;
 
-import org.aopalliance.intercept.MethodInvocation;
-
 final class CacheRemoveAllInterceptor
-    extends CacheInterceptor<CacheRemoveAll>
+    extends AfterBeforeInvocationInterceptor<CacheRemoveAll>
 {
 
     @Override
@@ -32,11 +31,10 @@ final class CacheRemoveAllInterceptor
     }
 
     @Override
-    protected Object invoke( CacheInvocationContext<CacheRemoveAll> context, MethodInvocation invocation )
-        throws Throwable
+    protected void hitCache( CacheInvocationContext<CacheRemoveAll> context )
     {
-        // TODO Auto-generated method stub
-        return null;
+        Cache<Object, Object> cache = getCacheResolverFactory( context ).getCacheResolver( context ).resolveCache(context);
+        cache.removeAll();
     }
 
 }
