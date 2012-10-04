@@ -26,10 +26,9 @@
   <groupId>org.nnsoft.guice</groupId>
   <artifactId>gache</artifactId>
   <version>0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
 
   <name>99soft :: Gache</name>
-  <description>Google Guice caches integration</description>
+  <description>A lightweight yet powerful Google Guice - JCache bridge integration</description>
   <url>http://99soft.github.com/gache/</url>
   <inceptionYear>2012</inceptionYear>
 
@@ -73,11 +72,42 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>3.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.cache</groupId>
+      <artifactId>cache-api</artifactId>
+      <version>0.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>aopalliance</groupId>
+      <artifactId>aopalliance</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.10</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}</directory>
+        <includes>
+          <include>LICENSE</include>
+          <include>NOTICE</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
 
 </project>
