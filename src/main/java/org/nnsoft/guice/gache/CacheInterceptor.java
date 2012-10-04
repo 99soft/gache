@@ -61,11 +61,6 @@ abstract class CacheInterceptor<A extends Annotation>
     @Inject
     private CacheKeyGenerator cacheKeyGenerator;
 
-    protected final Injector getInjector()
-    {
-        return injector;
-    }
-
     public final void setInjector( Injector injector )
     {
         this.injector = injector;
