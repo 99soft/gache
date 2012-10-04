@@ -94,8 +94,8 @@ final class CachePutInterceptor
             }
         }
 
-        Cache<Object, Object> cache = getCacheResolver().resolveCache( context );
-        CacheKey cacheKey = getCacheKeyGenerator().generateCacheKey( context );
+        Cache<Object, Object> cache = getCacheResolverFactory( context ).getCacheResolver( context ).resolveCache( context );
+        CacheKey cacheKey = getCacheKeyGenerator( context ).generateCacheKey( context );
         cache.put( cacheKey, cachedValue );
     }
 
