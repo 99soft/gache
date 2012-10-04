@@ -23,6 +23,7 @@ import javax.cache.annotation.CacheKeyInvocationContext;
 import javax.cache.annotation.CachePut;
 
 import org.aopalliance.intercept.MethodInvocation;
+import org.jsr107.ri.annotations.CacheContextSource;
 
 final class CachePutInterceptor
     extends CacheInterceptor<CachePut>
@@ -80,6 +81,20 @@ final class CachePutInterceptor
 
     private void cachePut( CacheKeyInvocationContext<CachePut> context, Object cachedValue )
     {
+        if ( cachedValue == null )
+        {
+            if ( context.getCacheAnnotation().cacheNull() )
+            {
+                // Null values are cached, set value to the null placeholder
+                cachedValue = NULL_PLACEHOLDER;
+            }
+            else
+            {
+                // Ignore null values
+                return;
+            }
+        }
+
         Cache<Object, Object> cache = getCacheResolver().resolveCache( context );
         CacheKey cacheKey = getCacheKeyGenerator().generateCacheKey( context );
         cache.put( cacheKey, cachedValue );

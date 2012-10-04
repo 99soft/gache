@@ -16,7 +16,6 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
-import static com.google.inject.internal.util.$Preconditions.checkArgument;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableSet;
@@ -50,6 +49,8 @@ import com.google.inject.Injector;
 abstract class CacheInterceptor<A extends Annotation>
     implements MethodInterceptor
 {
+
+    protected static final Object NULL_PLACEHOLDER = new Object();
 
     @Inject
     private Injector injector;
