@@ -210,40 +210,21 @@ abstract class CacheInterceptor<A extends Annotation>
         return method.toGenericString();
     }
 
-    /**
-     * Determines if a candidate object's type passes a set of included/excluded filters
-     * <p/>
-     * Returns true of one of the following conditions is true
-     * <ol>
-     *  <li>If included and excluded are both empty then the value passed as includeBothEmpty is returned</li>
-     *  <li>If included is not empty and excluded is empty and candidate is an instanceof a member of the included array</li>
-     *  <li>If included is empty and excluded is not empty and candidate is not an instanceof a member of the excluded array</li>
-     *  <li>If included and excluded are not empty and candidate is an instanceof a member of the included array and
-     *      candidate is not an instanceof a member of the excluded array</li>
-     * </ol>
-     *
-     * @param candidate The object to check if it is included or excluded
-     * @param includes Array of included classes, may be null
-     * @param excludes Array of excluded classes, may be null
-     * @param includeBothEmpty If true then if both the included and excluded arrays are null true will be returned.
-     */
-    static <T> boolean isIncluded( T candidate,
-                                   Class<? extends T>[] includes,
-                                   Class<? extends T>[] excludes,
-                                   boolean includeBothEmpty )
+    static <T extends Throwable> boolean include( T throwable,
+                                                  Class<? extends T>[] includes,
+                                                  Class<? extends T>[] excludes,
+                                                  boolean includeBothEmpty )
     {
-        checkArgument( candidate != null, "candidate can not be null" );
-
-        final boolean includedEmpty = isEmpty( includes );
-        final boolean excludedEmpty = isEmpty( excludes );
+        boolean includedEmpty = isEmpty( includes );
+        boolean excludedEmpty = isEmpty( excludes );
 
         if ( includedEmpty && excludedEmpty )
         {
             return includeBothEmpty;
         }
 
-        final boolean isAssignableFromIncludes = isAssignable( candidate, includes );
-        final boolean isAssignableFromExcludes = isAssignable( candidate, excludes );
+        boolean isAssignableFromIncludes = isAssignable( throwable, includes );
+        boolean isAssignableFromExcludes = isAssignable( throwable, excludes );
 
         if ( includedEmpty )
         {

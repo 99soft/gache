@@ -16,7 +16,10 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
+import javax.cache.Cache;
 import javax.cache.annotation.CacheInvocationContext;
+import javax.cache.annotation.CacheKey;
+import javax.cache.annotation.CacheKeyInvocationContext;
 import javax.cache.annotation.CachePut;
 
 import org.aopalliance.intercept.MethodInvocation;
@@ -35,11 +38,15 @@ final class CachePutInterceptor
     protected Object invoke( CacheInvocationContext<CachePut> context, MethodInvocation invocation )
         throws Throwable
     {
+        CacheKeyInvocationContext<CachePut> keyedContext = (CacheKeyInvocationContext<CachePut>) context;
+
         CachePut cachePut = context.getCacheAnnotation();
+
+        Object value = keyedContext.getValueParameter().getValue();
 
         if ( !cachePut.afterInvocation() )
         {
-
+            cachePut( keyedContext, value );
         }
 
         final Object invocationResult;
@@ -51,12 +58,12 @@ final class CachePutInterceptor
         {
             if ( cachePut.afterInvocation() )
             {
-                boolean cache = isIncluded( t, cachePut.cacheFor(), cachePut.noCacheFor(), false );
+                boolean cache = include( t, cachePut.cacheFor(), cachePut.noCacheFor(), false );
 
                 // Exception is included
                 if ( cache )
                 {
-                    // cacheValue( context, methodDetails, value );
+                    cachePut( keyedContext, value );
                 }
             }
 
@@ -65,10 +72,17 @@ final class CachePutInterceptor
 
         if ( cachePut.afterInvocation() )
         {
-
+            cachePut( keyedContext, value );
         }
 
-        return null;
+        return invocationResult;
+    }
+
+    private void cachePut( CacheKeyInvocationContext<CachePut> context, Object cachedValue )
+    {
+        Cache<Object, Object> cache = getCacheResolver().resolveCache( context );
+        CacheKey cacheKey = getCacheKeyGenerator().generateCacheKey( context );
+        cache.put( cacheKey, cachedValue );
     }
 
 }
