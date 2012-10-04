@@ -240,7 +240,20 @@ abstract class CacheInterceptor<A extends Annotation>
         return isAssignableFromIncludes && !isAssignableFromExcludes;
     }
 
-    private static final <T> boolean isEmpty( Class<? extends T>...types )
+    private static <T extends Throwable> boolean isAssignable( T target, Class<? extends T>[] from )
+    {
+        for ( final Class<? extends T> throwable : from )
+        {
+            if ( throwable.isAssignableFrom( target.getClass() ) )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static final <T extends Throwable> boolean isEmpty( Class<? extends T>...types )
     {
         return types == null || types.length == 0;
     }
@@ -253,32 +266,6 @@ abstract class CacheInterceptor<A extends Annotation>
     private static Set<Annotation> toAnnotationsSet( Annotation...annotations )
     {
         return unmodifiableSet( new LinkedHashSet<Annotation>( asList( annotations ) ) );
-    }
-
-    /**
-     * Determines if a candidate object's type matches an element in the classes array.
-     *
-     * @param target The object to check if its type matches one of the classes in the array, must not be null.
-     * @param from List of classes to check against, may be null.
-     * @return null if classes array is null or if candidate is not an instanceof any member of the classes array.
-     */
-    private static <T> boolean isAssignable( T target, Class<? extends T>[] from )
-    {
-        if ( from == null )
-        {
-            return false;
-        }
-
-        final Class<? extends Object> candidateClass = target.getClass();
-        for ( final Class<? extends T> throwable : from )
-        {
-            if ( throwable.isAssignableFrom( candidateClass ) )
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
 }
