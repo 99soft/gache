@@ -16,16 +16,18 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
+import javax.cache.Cache;
 import javax.cache.annotation.CacheInvocationContext;
+import javax.cache.annotation.CacheKey;
+import javax.cache.annotation.CacheKeyInvocationContext;
+import javax.cache.annotation.CachePut;
 import javax.cache.annotation.CacheRemoveEntry;
-
-import org.aopalliance.intercept.MethodInvocation;
 
 /**
  *
  */
 final class CacheRemoveEntryInterceptor
-    extends CacheInterceptor<CacheRemoveEntry>
+    extends AfterBeforeInvocationInterceptor<CacheRemoveEntry>
 {
 
     @Override
@@ -35,11 +37,14 @@ final class CacheRemoveEntryInterceptor
     }
 
     @Override
-    protected Object invoke( CacheInvocationContext<CacheRemoveEntry> context, MethodInvocation invocation )
-        throws Throwable
+    protected void hitCache( CacheInvocationContext<CacheRemoveEntry> context )
     {
-        // TODO Auto-generated method stub
-        return null;
+        CacheKeyInvocationContext<CacheRemoveEntry> keyedContext = (CacheKeyInvocationContext<CacheRemoveEntry>) context;
+
+        Cache<Object, Object> cache = getCacheResolverFactory( context ).getCacheResolver( context ).resolveCache( context );
+        CacheKey cacheKey = getCacheKeyGenerator( context ).generateCacheKey( keyedContext );
+
+        cache.remove( cacheKey );
     }
 
 }
