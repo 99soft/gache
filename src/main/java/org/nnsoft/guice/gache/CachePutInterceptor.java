@@ -23,7 +23,6 @@ import javax.cache.annotation.CacheKeyInvocationContext;
 import javax.cache.annotation.CachePut;
 
 import org.aopalliance.intercept.MethodInvocation;
-import org.jsr107.ri.annotations.CacheContextSource;
 
 final class CachePutInterceptor
     extends CacheInterceptor<CachePut>
