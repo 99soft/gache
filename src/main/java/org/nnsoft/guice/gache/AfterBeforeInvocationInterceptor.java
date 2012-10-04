@@ -30,7 +30,7 @@ abstract class AfterBeforeInvocationInterceptor<A extends Annotation>
 {
 
     @Override
-    protected Object invoke( CacheInvocationContext<A> context, MethodInvocation invocation )
+    protected final Object invoke( CacheInvocationContext<A> context, MethodInvocation invocation )
         throws Throwable
     {
         InterceptedAnnotationProxy<A> annotationProxy = new InterceptedAnnotationProxy<A>( context.getCacheAnnotation() );
