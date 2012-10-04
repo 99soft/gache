@@ -19,6 +19,8 @@ package org.nnsoft.guice.gache;
 import javax.cache.annotation.CacheInvocationContext;
 import javax.cache.annotation.CacheResult;
 
+import org.aopalliance.intercept.MethodInvocation;
+
 /**
  *
  */
@@ -33,7 +35,7 @@ final class CacheResultInterceptor
     }
 
     @Override
-    protected Object invoke( CacheInvocationContext<CacheResult> context )
+    protected Object invoke( CacheInvocationContext<CacheResult> context, MethodInvocation invocation )
         throws Throwable
     {
         // TODO Auto-generated method stub

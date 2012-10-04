@@ -19,6 +19,8 @@ package org.nnsoft.guice.gache;
 import javax.cache.annotation.CacheInvocationContext;
 import javax.cache.annotation.CachePut;
 
+import org.aopalliance.intercept.MethodInvocation;
+
 final class CachePutInterceptor
     extends CacheInterceptor<CachePut>
 {
@@ -30,7 +32,7 @@ final class CachePutInterceptor
     }
 
     @Override
-    protected Object invoke( CacheInvocationContext<CachePut> context )
+    protected Object invoke( CacheInvocationContext<CachePut> context, MethodInvocation invocation )
         throws Throwable
     {
         CachePut cachePut = context.getCacheAnnotation();
@@ -43,7 +45,7 @@ final class CachePutInterceptor
         final Object invocationResult;
         try
         {
-            invocationResult = null;
+            invocationResult = invocation.proceed();
         }
         catch ( Throwable t )
         {

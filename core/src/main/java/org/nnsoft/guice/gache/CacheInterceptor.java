@@ -162,10 +162,11 @@ abstract class CacheInterceptor<A extends Annotation>
                                                                 keyParameters,
                                                                 valueParameter,
                                                                 methodAnnotations,
-                                                                interceptedAnnotation ) );
+                                                                interceptedAnnotation ),
+                       invocation );
     }
 
-    protected abstract Object invoke( CacheInvocationContext<A> context )
+    protected abstract Object invoke( CacheInvocationContext<A> context, MethodInvocation invocation )
         throws Throwable;
 
     @SuppressWarnings( "unchecked" )

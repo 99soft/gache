@@ -19,6 +19,8 @@ package org.nnsoft.guice.gache;
 import javax.cache.annotation.CacheInvocationContext;
 import javax.cache.annotation.CacheRemoveAll;
 
+import org.aopalliance.intercept.MethodInvocation;
+
 final class CacheRemoveAllInterceptor
     extends CacheInterceptor<CacheRemoveAll>
 {
@@ -30,7 +32,7 @@ final class CacheRemoveAllInterceptor
     }
 
     @Override
-    protected Object invoke( CacheInvocationContext<CacheRemoveAll> context )
+    protected Object invoke( CacheInvocationContext<CacheRemoveAll> context, MethodInvocation invocation )
         throws Throwable
     {
         // TODO Auto-generated method stub
