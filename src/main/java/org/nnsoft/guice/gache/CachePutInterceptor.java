@@ -25,7 +25,7 @@ import javax.cache.annotation.CachePut;
 import org.aopalliance.intercept.MethodInvocation;
 
 final class CachePutInterceptor
-    extends CacheInterceptor<CachePut>
+    extends AfterBeforeInvocationInterceptor<CachePut>
 {
 
     @Override
@@ -35,57 +35,17 @@ final class CachePutInterceptor
     }
 
     @Override
-    protected Object invoke( CacheInvocationContext<CachePut> context, MethodInvocation invocation )
-        throws Throwable
+    protected void hitCache( CacheInvocationContext<CachePut> context )
     {
         CacheKeyInvocationContext<CachePut> keyedContext = (CacheKeyInvocationContext<CachePut>) context;
-
-        CachePut cachePut = context.getCacheAnnotation();
-
         Object value = keyedContext.getValueParameter().getValue();
 
-        if ( !cachePut.afterInvocation() )
-        {
-            cachePut( keyedContext, value );
-        }
-
-        final Object invocationResult;
-        try
-        {
-            invocationResult = invocation.proceed();
-        }
-        catch ( Throwable t )
-        {
-            if ( cachePut.afterInvocation() )
-            {
-                boolean cache = include( t, cachePut.cacheFor(), cachePut.noCacheFor(), false );
-
-                // Exception is included
-                if ( cache )
-                {
-                    cachePut( keyedContext, value );
-                }
-            }
-
-            throw t;
-        }
-
-        if ( cachePut.afterInvocation() )
-        {
-            cachePut( keyedContext, value );
-        }
-
-        return invocationResult;
-    }
-
-    private void cachePut( CacheKeyInvocationContext<CachePut> context, Object cachedValue )
-    {
-        if ( cachedValue == null )
+        if ( value == null )
         {
             if ( context.getCacheAnnotation().cacheNull() )
             {
                 // Null values are cached, set value to the null placeholder
-                cachedValue = NULL_PLACEHOLDER;
+                value = NULL_PLACEHOLDER;
             }
             else
             {
@@ -95,8 +55,8 @@ final class CachePutInterceptor
         }
 
         Cache<Object, Object> cache = getCacheResolverFactory( context ).getCacheResolver( context ).resolveCache( context );
-        CacheKey cacheKey = getCacheKeyGenerator( context ).generateCacheKey( context );
-        cache.put( cacheKey, cachedValue );
+        CacheKey cacheKey = getCacheKeyGenerator( context ).generateCacheKey( keyedContext );
+        cache.put( cacheKey, value );
     }
 
 }
