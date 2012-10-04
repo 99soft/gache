@@ -20,7 +20,6 @@ import javax.cache.Cache;
 import javax.cache.annotation.CacheInvocationContext;
 import javax.cache.annotation.CacheKey;
 import javax.cache.annotation.CacheKeyInvocationContext;
-import javax.cache.annotation.CachePut;
 import javax.cache.annotation.CacheRemoveEntry;
 
 /**
