@@ -16,8 +16,12 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
+import static java.util.Arrays.asList;
+
 import static com.google.inject.matcher.Matchers.annotatedWith;
 import static com.google.inject.matcher.Matchers.any;
+
+import java.lang.annotation.Annotation;
 
 import com.google.inject.AbstractModule;
 
@@ -26,14 +30,15 @@ public abstract class CacheModule
 {
 
     @Override
+    @SuppressWarnings( "unchecked" )
     protected final void configure()
     {
         configureCache();
 
-        for ( CacheInterceptor interceptor : new CacheInterceptor[] { new CachePutInterceptor(),
-                                                                      new CacheResultInterceptor(),
-                                                                      new CacheRemoveEntryInterceptor(),
-                                                                      new CacheRemoveAllInterceptor() } )
+        for ( CacheInterceptor<? extends Annotation> interceptor : asList( new CachePutInterceptor(),
+                                                                           new CacheResultInterceptor(),
+                                                                           new CacheRemoveEntryInterceptor(),
+                                                                           new CacheRemoveAllInterceptor() ) )
         {
             requestInjection( interceptor );
             bindInterceptor( any(), annotatedWith( interceptor.getInterceptedAnnotationType() ), interceptor );

@@ -15,25 +15,41 @@ final class DefaultCacheKeyInvocationContext<A extends Annotation>
 
     private final Injector injector;
 
+    private final String cacheName;
+
+    private final Object target;
+
     protected final Method method;
+
+    private final CacheInvocationParameter[] allParameters;
+
+    private final CacheInvocationParameter[] keyParameters;
+
+    private final CacheInvocationParameter valueParameter;
 
     private final Set<Annotation> methodAnnotations;
 
     private final A interceptedAnnotation;
 
-    private final String cacheName;
-
     public DefaultCacheKeyInvocationContext( Injector injector,
+                                             String cacheName,
+                                             Object target,
                                              Method method,
+                                             CacheInvocationParameter[] allParameters,
+                                             CacheInvocationParameter[] keyParameters,
+                                             CacheInvocationParameter valueParameter,
                                              Set<Annotation> methodAnnotations,
-                                             A interceptedAnnotation,
-                                             String cacheName )
+                                             A interceptedAnnotation )
     {
         this.injector = injector;
+        this.cacheName = cacheName;
+        this.target = target;
         this.method = method;
+        this.allParameters = allParameters;
+        this.keyParameters = keyParameters;
+        this.valueParameter = valueParameter;
         this.methodAnnotations = methodAnnotations;
         this.interceptedAnnotation = interceptedAnnotation;
-        this.cacheName = cacheName;
     }
 
     public final Method getMethod()
@@ -58,12 +74,12 @@ final class DefaultCacheKeyInvocationContext<A extends Annotation>
 
     public final Object getTarget()
     {
-        return null;
+        return target;
     }
 
     public final CacheInvocationParameter[] getAllParameters()
     {
-        return null;
+        return allParameters;
     }
 
     public final <T> T unwrap( Class<T> cls )
@@ -73,28 +89,12 @@ final class DefaultCacheKeyInvocationContext<A extends Annotation>
 
     public CacheInvocationParameter[] getKeyParameters()
     {
-        /* List<CacheInvocationParameter> parameters = new ArrayList<CacheInvocationParameter>( invocation.getArguments().length );
-
-        for ( int i = 0; i < invocation.getArguments().length; i++ )
-        {
-            Class<?> parameterType = invocation.getMethod().getParameterTypes()[i];
-
-            boolean keyFound = false;
-            boolean valueFound = false;
-
-            for ( Annotation parameterAnnotation : invocation.getMethod().getParameterAnnotations()[i] )
-            {
-
-            }
-        }
-
-        return parameters.toArray( new CacheInvocationParameter[parameters.size()] ); */
-        return null;
+        return keyParameters;
     }
 
     public CacheInvocationParameter getValueParameter()
     {
-        return null;
+        return valueParameter;
     }
 
 }

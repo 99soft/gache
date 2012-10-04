@@ -16,25 +16,56 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
-import java.lang.annotation.Annotation;
-
+import javax.cache.annotation.CacheInvocationContext;
 import javax.cache.annotation.CachePut;
 
-import org.aopalliance.intercept.MethodInvocation;
-
 final class CachePutInterceptor
-    extends CacheInterceptor
+    extends CacheInterceptor<CachePut>
 {
 
     @Override
-    Class<? extends Annotation> getInterceptedAnnotationType()
+    public Class<CachePut> getInterceptedAnnotationType()
     {
         return CachePut.class;
     }
 
-    public Object invoke( MethodInvocation invocation )
+    @Override
+    protected Object invoke( CacheInvocationContext<CachePut> context )
         throws Throwable
     {
+        CachePut cachePut = context.getCacheAnnotation();
+
+        if ( !cachePut.afterInvocation() )
+        {
+
+        }
+
+        final Object invocationResult;
+        try
+        {
+            invocationResult = null;
+        }
+        catch ( Throwable t )
+        {
+            if ( cachePut.afterInvocation() )
+            {
+                boolean cache = isIncluded( t, cachePut.cacheFor(), cachePut.noCacheFor(), false );
+
+                // Exception is included
+                if ( cache )
+                {
+                    // cacheValue( context, methodDetails, value );
+                }
+            }
+
+            throw t;
+        }
+
+        if ( cachePut.afterInvocation() )
+        {
+
+        }
+
         return null;
     }
 

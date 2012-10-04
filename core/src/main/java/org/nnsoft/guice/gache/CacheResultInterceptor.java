@@ -16,39 +16,27 @@ package org.nnsoft.guice.gache;
  *  limitations under the License.
  */
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-
-import javax.cache.Cache;
+import javax.cache.annotation.CacheInvocationContext;
 import javax.cache.annotation.CacheResult;
-
-import org.aopalliance.intercept.MethodInvocation;
 
 /**
  *
  */
 final class CacheResultInterceptor
-    extends CacheInterceptor
+    extends CacheInterceptor<CacheResult>
 {
 
     @Override
-    Class<? extends Annotation> getInterceptedAnnotationType()
+    public Class<CacheResult> getInterceptedAnnotationType()
     {
         return CacheResult.class;
     }
 
-    public Object invoke( MethodInvocation invocation )
+    @Override
+    protected Object invoke( CacheInvocationContext<CacheResult> context )
         throws Throwable
     {
-        final Method invokedMethod = invocation.getMethod();
-
-        // we can be sure about that because of the interceptor
-        final CacheResult cacheResult = invokedMethod.getAnnotation( CacheResult.class );
-
-        final String cacheId = cacheResult.cacheName();
-
-        final Cache<Object, Object> cache = getCacheManager().getCache( cacheId );
-
+        // TODO Auto-generated method stub
         return null;
     }
 
